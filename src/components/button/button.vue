@@ -108,9 +108,7 @@
     &.cube-btn_disabled,
     &.cube-btn_disabled.cube-btn_active,
     &.cube-btn_disabled:active
-      color: $btn-disabled-color
-      background: $btn-disabled-bgc
-      border-1px($btn-disabled-bdc)
+      opacity: .6;
 
   .cube-btn-inline
     width: auto
