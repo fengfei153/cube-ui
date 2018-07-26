@@ -84,7 +84,7 @@
   .cube-btn
     display: block
     margin: 0
-    padding: 12.5px
+    padding: 12px
     width: 100%
     text-align: center
     white-space: nowrap
