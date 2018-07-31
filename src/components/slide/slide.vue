@@ -106,9 +106,10 @@
       }
     },
     created() {
+      this._dataWatchers = []
       const needRefreshProps = ['data', 'loop', 'autoPlay', 'options.eventPassthrough', 'threshold', 'speed', 'allowVertical']
       needRefreshProps.forEach((key) => {
-        this.$watch(key, () => {
+        this._dataWatchers.push(this.$watch(key, () => {
           // To fix the render bug when add items since loop.
           if (key === 'data') {
             this._destroy()
@@ -118,7 +119,7 @@
           this.$nextTick(() => {
             this.refresh()
           })
-        })
+        }))
       })
     },
     watch: {
@@ -204,10 +205,8 @@
         this.slide.goToPage(this.currentPageIndex, 0, 0)
 
         this.slide.on('scrollEnd', this._onScrollEnd)
-        /* dispatch scroll position */
-        if (this.options.listenScroll) {
-          //  ensure dispatch scroll position constantly
-          this.options.probeType = 3
+        /* dispatch scroll position constantly */
+        if (this.options.listenScroll && this.options.probeType === 3) {
           this.slide.on('scroll', this._onScroll)
         }
         const slideEl = this.$refs.slide
@@ -300,8 +299,12 @@
     destroyed() {
       this._deactivated()
       this._destroy()
-
       this.slide = null
+
+      this._dataWatchers.forEach((cancalWatcher) => {
+        cancalWatcher()
+      })
+      this._dataWatchers = null
     },
     components: {
       CubeSlideItem
