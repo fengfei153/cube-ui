@@ -26,6 +26,11 @@
 
   export default {
     name: COMPONENT_NAME,
+    provide() {
+      return {
+        sticky: this
+      }
+    },
     props: {
       pos: {
         type: Number,
@@ -88,6 +93,7 @@
             const oldChild = fixedEle.firstElementChild
             if (oldEle) {
               oldEle.$el.appendChild(oldChild)
+              oldEle.refresh()
             }
             if (newEle) {
               fixedEle.appendChild(newEle.$el.firstElementChild)
@@ -105,9 +111,6 @@
         const height = this.heights[this.currentIndex] || 0
         this.$emit(EVENT_DIFF_CHANGE, newVal, height)
       }
-    },
-    beforeCreate() {
-      this.isSticky = true
     },
     created() {
       this.fixedEleHeight = 0

@@ -264,6 +264,12 @@
         })
       }
     },
+    beforeDestroy() {
+      this.wheels && this.wheels.forEach((wheel) => {
+        wheel.destroy()
+      })
+      this.wheels = null
+    },
     components: {
       CubePopup
     }
