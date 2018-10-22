@@ -1,10 +1,21 @@
 ## 快速上手
 
-新手教程项目：[cube-application-guide](https://github.com/cube-ui/cube-application-guide)
+- 新手教程项目：[cube-application-guide](https://github.com/cube-ui/cube-application-guide)
+- 遇到问题，先移步 [QA](https://github.com/cube-ui/question-answer/issues)
 
 ### 脚手架
 
-如果你打算用在一个新项目中使用 cube-ui，可以通过我们提供的一套基于 [vue-cli](https://github.com/vuejs/vue-cli) 实现的[脚手架](https://github.com/cube-ui/cube-template)去初始化 cube-ui 项目的配置和基础代码，这样你就可以忽略<a href="#cube-安装-anchor" class="anchor">安装</a>步骤，直接看<a href="#cube-使用-anchor" class="anchor">使用部分</a>。
+#### vue-cli >= 3
+
+如果你正在使用新版本的 Vue CLI vue-cli@3，那么推荐你直接使用 [vue-cli-plugin-cube-ui](https://github.com/cube-ui/vue-cli-plugin-cube-ui) 插件。在你初始化完项目后直接执行 `vue add cube-ui` 即可。
+
+在执行的时候，会询问一些配置项，这个和老版本的 [模板](https://github.com/cube-ui/cube-template) 配置是一样的，参见 [cube-template WIKI](https://github.com/cube-ui/cube-template/wiki)。
+
+执行完成后，你可以直接进入<a href="#cube-使用-anchor" class="anchor">使用部分</a>。
+
+#### vue-cli < 3
+
+如果你打算用在一个新项目中使用 cube-ui，可以通过我们提供的一套基于 [vue-cli](https://github.com/vuejs/vue-cli) 实现的[脚手架模板](https://github.com/cube-ui/cube-template)去初始化 cube-ui 项目的配置和基础代码，这样你就可以忽略<a href="#cube-安装-anchor" class="anchor">安装</a>步骤，直接看<a href="#cube-使用-anchor" class="anchor">使用部分</a>。
 
 ```shell
 $ vue init cube-ui/cube-template projectname
@@ -15,6 +26,8 @@ $ vue init cube-ui/cube-template projectname
 如果你打算在现有项目中使用 cube-ui，请先参考<a href="#cube-安装-anchor" class="anchor">安装</a>部分。
 
 ### 安装
+
+> 此安装部分只针对于 vue-cli < 3 的情况
 
 #### NPM
 
@@ -109,7 +122,7 @@ cube-ui 搭配 webpack 2+ 支持[后编译](#/zh-CN/docs/post-compile)和普通�
           "transform": "cube-ui/lib/${member}",
           "kebabCase": true,
           "style": {
-            "ignore": ["create-api", "better-scroll"]
+            "ignore": ["create-api", "better-scroll", "locale"]
           }
         }
       },
@@ -199,6 +212,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Radio,
+  Checker,
   Input,
   Textarea,
   Select,
@@ -229,7 +243,7 @@ import {
 也可以引入[create-api](#/zh-CN/docs/create-api)和[better-scroll](#/zh-CN/docs/better-scroll)模块：
 
 ```js
-import { createAPI, BetterScroll } from 'cube-ui'
+import { createAPI, BetterScroll, Locale } from 'cube-ui'
 ```
 
 #### 示例

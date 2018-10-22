@@ -79,6 +79,25 @@ __Notice:__ Cause this component used create-api, so you should read [create-api
   ```
   Set `type` to change the tip icon.You can see accepted types in the following `Props configuration`.
 
+- Show txt only<sup>1.11.0</sup>
+
+  ```html
+  <cube-button @click="showToastTxtOnly">Toast - txt only</cube-button>
+  ```
+  ```js
+  export default {
+    methods: {
+      showToastTxtOnly() {
+        this.toast = this.$createToast({
+          txt: 'Plain txt',
+          type: 'txt'
+        })
+        this.toast.show()
+      }
+    }
+  }
+  ```
+
 - Callback
 
   ```html
@@ -127,12 +146,13 @@ __Notice:__ Cause this component used create-api, so you should read [create-api
 
 | Attribute | Description | Type | Accepted Values | Default |
 | - | - | - | - | - |
-| type | toast type(different types of icons) | String | loading/correct/error/warn | loading |
+| type | toast type(different types of icons) | String | loading/correct/error/warn/txt<sup>1.11.0</sup> | loading |
 | mask | whether to show mask layer | Boolean | true/false | false |
 | txt | tip text | String  | - | '' |
 | time | display duration, millisecond | Number | - | 3000 |
 | visible<sup>1.8.1</sup> | whether visible. Bind to `v-model` | Boolean | true/false | false |
 | maskClosable<sup>1.9.6</sup> | whether hide the component when clicked the mask layer | Boolean | true/false | false |
+| zIndex<sup>1.9.6</sup> | the value of the style z-index | Number | - | 900 |
 
 ### Events
 
