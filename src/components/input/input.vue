@@ -88,7 +88,7 @@
         isFocus: false,
         formatedClearable: {
           visible: false,
-          blurHidden: true
+          blurHidden: false
         },
         formatedEye: {
           open: false,
