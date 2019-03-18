@@ -89,6 +89,7 @@ Multi-line input box components. You can use the `v-model` directive to create t
 | placeholder | placeholder of input | String | - | empty |
 | autofocus | autofocus status | Boolean | true/false | false |
 | indicator<sup>1.10.0</sup> | indicator config | Boolean/Object | true/false/{} | true |
+| autoExpand<sup>1.12.0</sup> | If `autoExpand` is true and have initial value, the textarea will be auto expanded | Boolean | true/false | false |
 
 - indicator sub configuration
 
@@ -109,3 +110,11 @@ Multi-line input box components. You can use the `v-model` directive to create t
 | - | - | - |
 | focus | This event is triggered after the textarea box is focused. If Textarea is disabled, it will not be triggered | e - event |
 | blur | This event is triggered after the textarea box blur | e - event |
+
+### Instance methods
+
+| Method name | Description |
+| - | - |
+| focus<sup>1.12.10+</sup> | Focus element |
+| blur<sup>1.12.10+</sup> | Blur element |
+

@@ -30,6 +30,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import inputMixin from '../../common/mixins/input'
   const COMPONENT_NAME = 'cube-input'
   const EVENT_INPUT = 'input'
   const EVENT_CHANGE = 'change'
@@ -38,6 +39,7 @@
 
   export default {
     name: COMPONENT_NAME,
+    mixins: [inputMixin],
     props: {
       value: [String, Number],
       type: {
@@ -201,7 +203,7 @@
     border-radius: 2px
     outline: none
     &::-webkit-input-placeholder
-      color: $input-placeholder-color!important
+      color: $input-placeholder-color
       text-overflow: ellipsis
     + .cube-input-append
       .cube-input-clear, .cube-input-eye
