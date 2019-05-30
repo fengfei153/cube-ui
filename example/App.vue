@@ -87,6 +87,10 @@
                 text: 'Select'
               },
               {
+                path: '/cascade',
+                text: 'Cascade'
+              },
+              {
                 path: '/switch',
                 text: 'Switch'
               },

@@ -18,6 +18,7 @@ import RadioGroup from './modules/radio-group'
 import Input from './modules/input'
 import Textarea from './modules/textarea'
 import Select from './modules/select'
+import Cascade from './modules/Cascade'
 import Switch from './modules/switch'
 import Rate from './modules/rate'
 import Validator from './modules/validator'
@@ -88,6 +89,7 @@ export {
   Input,
   Textarea,
   Select,
+  Cascade,
   Switch,
   Rate,
   Validator,
