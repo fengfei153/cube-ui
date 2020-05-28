@@ -16,6 +16,7 @@
   const EVENT_INPUT = 'input' // only used for v-model
   const EVENT_PICKER_SHOW = 'picker-show'
   const EVENT_PICKER_HIDE = 'picker-hide'
+  const TEXT_REG = /.* data-text="([^"]*)".*/
 
   export default {
     name: COMPONENT_NAME,
@@ -84,7 +85,7 @@
         return this.valueIndex !== -1 ? [this.valueIndex] : [0]
       },
       selectedText() {
-        return this.valueIndex !== -1 ? this.adaptOptions[0][this.valueIndex].text : ''
+        return this.valueIndex !== -1 ? this.adaptOptions[0][this.valueIndex].text.replace(TEXT_REG, '$1') : ''
       },
       _placeholder () {
         return this.placeholder || this.$t('selectText')
