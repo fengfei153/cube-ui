@@ -69,13 +69,13 @@
       min: {
         type: [Date, Array],
         default() {
-          return new Date(2010, 1, 1)
+          return new Date(2010, 0, 1)
         }
       },
       max: {
         type: [Date, Array],
         default() {
-          return new Date(2020, 12, 31)
+          return new Date(2020, 11, 31)
         }
       },
       startColumn: {
@@ -98,6 +98,12 @@
         type: [Date, Array],
         default() {
           return this.min
+        }
+      },
+      columnOrder: {
+        type: Array,
+        default() {
+          return ['year', 'month', 'date', 'hour', 'minute', 'second']
         }
       }
     },
@@ -127,18 +133,18 @@
       },
       minArray() {
         return this.min instanceof Date
-                ? dateToArray(this.min).slice(this.startIndex, this.startIndex + this.columnCount)
-                : this.min
+          ? dateToArray(this.min).slice(this.startIndex, this.startIndex + this.columnCount)
+          : this.min
       },
       maxArray() {
         return this.max instanceof Date
-                ? dateToArray(this.max).slice(this.startIndex, this.startIndex + this.columnCount)
-                : this.max
+          ? dateToArray(this.max).slice(this.startIndex, this.startIndex + this.columnCount)
+          : this.max
       },
       valueArray() {
         return this.value instanceof Date
-                ? dateToArray(this.value).slice(this.startIndex, this.startIndex + this.columnCount)
-                : this.value
+          ? dateToArray(this.value).slice(this.startIndex, this.startIndex + this.columnCount)
+          : this.value
       },
       data() {
         const data = []
@@ -225,7 +231,8 @@
         for (let i = min; i <= max; i++) {
           const object = {
             text: formatType(type, format, i, 'i'),
-            value: i
+            value: i,
+            order: this.columnOrder.indexOf(type)
           }
 
           if (fatherIsMin && i === min) object.isMin = true

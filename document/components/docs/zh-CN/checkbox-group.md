@@ -56,12 +56,30 @@
 
   可通过默认插槽插入 `cube-checkbox` 实现自定义每项的结构样子，关于 `cube-checkbox`，请参考其[文档](#/zh-CN/docs/checkbox)。
 
+- 自定义列数<sup>1.12.28</sup>
+
+  可通过设计 `colNum` 控制一行中有几列，colNum 小于1时，按1处理
+  ```html
+    <cube-checkbox-group v-model="colCheckList" :options="colOptions" :col-num="3" />
+  ```
+  ```js
+  export default {
+    data() {
+      return {
+        colCheckList: [],
+        colOptions: ['1', '2', '3', '4', '5', '6', '7', '8']
+      }
+    }
+  }
+  ```
+
 ### Props 配置
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | - | - | - | - | - |
 | options | 选项数组 | Array | - | - |
 | horizontal | 是否水平排列 | Boolean | true/false | false |
+| colNum<sup>1.12.28</sup> | 一行有几列 | Number | - | 1 |
 | shape | 图标形状 | String | circle/square | circle |
 | hollowStyle | 是否是镂空样式的 | Boolean | true/false | false |
 | min<sup>1.11.0</sup> | 最小选择个数 | Number | - | 0 |
@@ -76,3 +94,11 @@
 | disabled | 复选框是否被禁用 | Boolean |
 
 注：如果 `options` 中的项为字符串也是可以的，此时默认 `label` 和 `value` 的值都为该字符串的值。
+
+### 事件
+
+| 事件名 | 说明 | 参数 |
+| - | - | - |
+| checked | 勾选复选框组中的某一项时触发 | 当前勾选的复选框值 |
+| cancel-checked | 取消勾选复选框组中的某一项时触发 | 当前取消勾选的复选框值 |
+| input | 当绑定值变化时触发 | 当前选中的复选框值的集合 |

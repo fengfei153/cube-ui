@@ -125,6 +125,9 @@
       })
     },
     methods: {
+      scrollTo() {
+        this.$refs.scroll && this.$refs.scroll.scrollTo.apply(this.$refs.scroll, arguments)
+      },
       refresh() {
         this.navBar && this.navBar.refresh()
         this.$refs.sticky.refresh()
@@ -139,7 +142,7 @@
         this.active = label
         // waiting touchend
         // so the inner scroll won't affect the touchend logic
-        this.$nextTick(() => {
+        setTimeout(() => {
           this.jumpTo(label)
         })
       },

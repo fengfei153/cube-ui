@@ -411,7 +411,7 @@ Scroll components can meet the scrolling needs of most mobile applications. In t
 | - | - | - | - | - |
 | data | data used for list rendering | Array | - | [] |
 | direction | scrolling direction | String | 'vertical', 'horizontal' | 'vertical' |
-| options | the options of better-scroll, you could find details at [BS Document](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) | Object | - | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} |
+| options | the options of better-scroll, you could find details at [BS Document](https://ustbhuangyi.github.io/better-scroll/doc/en/options.html) | Object | - | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>}<br>`Notice`: After `1.12.38`, as [BS](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) `iOS13.4` issue [#978](https://github.com/ustbhuangyi/better-scroll/issues/978), we set `useTransition` to `fasle` by default |
 | scrollEvents<sup>1.9.0</sup> | configure which scroll events need be triggered | Array | could include: 'scroll', 'before-scroll-start', 'scroll-end' | [] |
 | listenScroll | whether to dispatch scroll event. `Deprecated`, please use the property `scroll-events` instead. | Boolean | true/false | false |
 | listenBeforeScroll | whether to dispatch  before-scroll-start event. `Deprecated`, please use the property `scroll-events` instead. | Boolean | true/false | false |
@@ -441,6 +441,9 @@ In `options`, there are three frequently-used options, `scrollbar`、`pullDownRe
 | - | - | - | - | - |
 | threshold | the threshold of  distance that pulling up for  loading | Number | - | 0 |
 | txt | the text shown when pulling up loading | Object | - | { more: '', noMore: '' } |
+| visible<sup>1.12.21</sup> | txt visible or not when content is not more enough | Boolean | true/false | false |
+
+> When pullUpLoad is enabled and the content height is smaller than the container, by default, the copy `pullUpLoad.txt` needs to be pulled up to be seen. If you want to see the prompt copy without pulling up, you can set `pullUpLoad.visible` to `true`。
 
 ### Slot
 
@@ -466,9 +469,9 @@ In `options`, there are three frequently-used options, `scrollbar`、`pullDownRe
 
 | Method Name | Description | Parameters |
 | - | - | - |
-| scrollTo | Scroll to specific position. | x: horizontal position<br> y: vertical position<br> time: transition time<br> ease: easing function |
-| forceUpdate | Mark the end of pull-up or pull-down, and force recalculation of scrollable distance | dirty: whether there is data updating, when "true" indicate data updated so recalculate scrollable distance, when false no data update and no need to recalculate |
-| disable | Disable scroll. | - |
-| enable | Enable scroll. It's enabled by default | - |
-| resetPullUpTxt | Reset pull up txt when pull up state changed from no data to data updated | - |
-| refresh | Refresh, computed height and called BetterScroll instance's refresh | - |
+| scrollTo(x, y, time, ease) | Scroll to specific position. | x: number, horizontal position<br> y: number, vertical position<br> time: number, transition time(ms)<br> ease: easingFn, easing function |
+| forceUpdate(dirty, nomore<sup>1.12.21</sup>) | Mark pull-up or pull-down end, force recalculation of scrollable distance | dirty: boolean, default to false, if true express has data update。<br>nomore<sup>1.12.21</sup>: boolean, default to false, if true represent has no more data. When params nomore is true, when pullup shows the value of `pullUpLoad.txt.nomore`, but when dirty is false, nomore is invalid.|
+| disable() | Disable scroll. | - |
+| enable() | Enable scroll. It's enabled by default | - |
+| resetPullUpTxt() | Reset pull up txt when pull up state changed from no data to data updated | - |
+| refresh() | Refresh, computed height and called BetterScroll instance's refresh | - |

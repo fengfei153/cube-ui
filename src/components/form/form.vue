@@ -1,7 +1,11 @@
 <template>
   <form ref="form" class="cube-form" :class="formClass" :action="action" @submit="submitHandler" @reset="resetHandler">
     <slot>
-      <cube-form-group v-for="(group, index) in groups" :fields="group.fields" :legend="group.legend" :key="index" />
+      <cube-form-group
+        v-for="(group, index) in groups"
+        :fields="group.fields"
+        :legend="group.legend"
+        :key="group.key || index" />
     </slot>
   </form>
 </template>
@@ -51,6 +55,10 @@
       immediateValidate: {
         type: Boolean,
         default: false
+      },
+      submitAlwaysValidate: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -62,6 +70,15 @@
       }
     },
     computed: {
+      fieldsModel() {
+        const model = {}
+        this.fields.forEach((fieldComponent) => {
+          if (!fieldComponent.isBtnField) {
+            model[fieldComponent.fieldValue.modelKey] = fieldComponent.modelValue
+          }
+        })
+        return model
+      },
       groups() {
         const schema = this.schema
         const groups = schema.groups || []
@@ -71,6 +88,15 @@
           })
         }
         return groups
+      },
+      fieldsData() {
+        return this.groups.reduce((fields, group) => {
+          group.fields.reduce((fields, field) => {
+            fields.push(field)
+            return fields
+          }, fields)
+          return fields
+        }, [])
       },
       layout() {
         const options = this.options
@@ -127,19 +153,23 @@
         // sync all fields value because of trigger: blur or debounce
         this.syncValidatorValues()
         if (this.skipValidate) {
-          this.$emit(EVENT_SUBMIT, e, this.model)
+          this.$emit(EVENT_SUBMIT, e, this.model, this.fieldsModel)
           return
         }
         const submited = (submitResult) => {
           if (submitResult) {
             this.$emit(EVENT_VALID, this.validity)
-            this.$emit(EVENT_SUBMIT, e, this.model)
+            this.$emit(EVENT_SUBMIT, e, this.model, this.fieldsModel)
           } else {
+            // scrollToInvalidField
+            if (this.options.scrollToInvalidField && this.firstInvalidField) {
+              this.firstInvalidField.$el.scrollIntoView()
+            }
             e.preventDefault()
             this.$emit(EVENT_INVALID, this.validity)
           }
         }
-        if (this.valid === undefined) {
+        if (this.submitAlwaysValidate || this.valid === undefined) {
           this._submit(submited)
           if (this.validating || this.pending) {
             // async validate
@@ -155,11 +185,6 @@
       },
       _submit(cb) {
         this.validate(() => {
-          if (this.invalid) {
-            if (this.options.scrollToInvalidField && this.firstInvalidField) {
-              this.firstInvalidField.$el.scrollIntoView()
-            }
-          }
           cb && cb(this.valid)
         })
       },
@@ -287,12 +312,16 @@
         })
       },
       addField(fieldComponent) {
-        this.fields.push(fieldComponent)
+        const i = this.fieldsData.indexOf(fieldComponent.field)
+        this.fields.splice(i, 0, fieldComponent)
+        const modelKey = fieldComponent.fieldValue.modelKey
+        modelKey && this.setValidity(modelKey)
       },
       destroyField(fieldComponent) {
         const i = this.fields.indexOf(fieldComponent)
         this.fields.splice(i, 1)
-        this.setValidity(fieldComponent.fieldValue.modelKey)
+        const modelKey = fieldComponent.fieldValue.modelKey
+        modelKey && this.setValidity(modelKey)
       }
     },
     beforeDestroy() {

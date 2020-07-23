@@ -18,7 +18,7 @@
       @change="changeHander"
     >
     <div class="cube-input-append" v-if="$slots.append || _showClear || _showPwdEye">
-      <div class="cube-input-clear" v-if="_showClear" @click="handleClear">
+      <div class="cube-input-clear" v-if="_showClear" @touchend="handleClear">
         <i class="cubeic-wrong"></i>
       </div>
       <div class="cube-input-eye" v-if="_showPwdEye" @click="handlePwdEye">
@@ -33,7 +33,6 @@
   import inputMixin from '../../common/mixins/input'
   const COMPONENT_NAME = 'cube-input'
   const EVENT_INPUT = 'input'
-  const EVENT_CHANGE = 'change'
   const EVENT_BLUR = 'blur'
   const EVENT_FOCUS = 'focus'
 
@@ -73,6 +72,7 @@
       max: Number,
       step: Number,
       tabindex: String,
+      pattern: String,
       clearable: {
         type: [Boolean, Object],
         default: false
@@ -145,9 +145,6 @@
       }
     },
     methods: {
-      changeHander(e) {
-        this.$emit(EVENT_CHANGE, e)
-      },
       formatClearable() {
         if (typeof this.clearable === 'boolean') {
           this.formatedClearable.visible = this.clearable
@@ -195,6 +192,7 @@
     display: block
     flex: 1
     width: 100%
+    min-width: 0
     padding: 10px
     box-sizing: border-box
     color: $input-color

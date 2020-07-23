@@ -15,6 +15,7 @@ import FormDefault from '../pages/form/default.vue'
 import FormCustom from '../pages/form/custom.vue'
 import FormClassic from '../pages/form/classic.vue'
 import FormFresh from '../pages/form/fresh.vue'
+import Questionnaire from '../pages/form/questionnaire.vue'
 import Picker from '../pages/picker.vue'
 import CascadePicker from '../pages/cascade-picker.vue'
 import SegmentPicker from '../pages/segment-picker.vue'
@@ -56,6 +57,7 @@ import Sticky from '../pages/sticky/index.vue'
 import StickyScroll from '../pages/sticky/scroll.vue'
 import StickyNative from '../pages/sticky/native.vue'
 import StickyWechat from '../pages/sticky/wechat.vue'
+import StickyComplex from '../pages/sticky/complex.vue'
 import ScrollNavBar from '../pages/scroll-nav-bar.vue'
 import ScrollNav from '../pages/scroll-nav/index.vue'
 import ScrollNavDefault from '../pages/scroll-nav/default.vue'
@@ -125,6 +127,10 @@ const routes = [
       {
         path: 'fresh',
         component: FormFresh
+      },
+      {
+        path: 'questionnaire',
+        component: Questionnaire
       }
     ]
   },
@@ -337,6 +343,10 @@ const routes = [
       {
         path: 'wechat',
         component: StickyWechat
+      },
+      {
+        path: 'complex',
+        component: StickyComplex
       }
     ]
   },

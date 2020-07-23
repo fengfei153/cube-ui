@@ -158,7 +158,7 @@ function processComponentName(Component, { prefix = '', firstUpperCase = false }
   const name = Component.name
   const pureName = name.replace(/^cube-/i, '')
   let camelizeName = `${camelize(`${prefix}${pureName}`)}`
-   /* istanbul ignore if */
+  /* istanbul ignore if */
   if (firstUpperCase) {
     camelizeName = camelizeName.charAt(0).toUpperCase() + camelizeName.slice(1)
   }
@@ -170,7 +170,7 @@ function parsePath (obj, path = '') {
   let result = obj
   for (let i = 0; i < segments.length; i++) {
     const key = segments[i]
-     /* istanbul ignore if */
+    /* istanbul ignore if */
     if (isUndef(result[key])) {
       result = ''
       break
@@ -179,6 +179,20 @@ function parsePath (obj, path = '') {
     }
   }
   return result
+}
+
+function getIOSVersion(ua) {
+  const regex = /os (\d\d?_\d(_\d)?)/
+  const matches = regex.exec(ua)
+  if (!matches) return null
+  const parts = matches[1].split('_').map(function(item) {
+    return parseInt(item, 10)
+  })
+  return {
+    major: parts[0],
+    minor: parts[1],
+    patch: parts[2] || 0
+  }
 }
 
 const isFunc = judgeTypeFnCreator('Function')
@@ -203,5 +217,6 @@ export {
   isArray,
   isString,
   isObject,
-  isNumber
+  isNumber,
+  getIOSVersion
 }

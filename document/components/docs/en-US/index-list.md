@@ -216,7 +216,7 @@
           // Update data.
           this.data[1].items.push(...cityData[1].items)
           // Call forceUpdate after finishing data load.
-          this.$refs.indexList.forceUpdate()
+          this.$refs.indexList.forceUpdate(true)
         }, 1000)
       }
     }
@@ -231,7 +231,7 @@
 | data | data to be displayed | Array | [] |
 | navbar | whether need navbar | Boolean | true |
 | speed | when click the navigator, the transition time of scrolling to the specific anchor (unit: ms). | number | 0 |
-| options<sup>1.9.8+</sup> | the options of better-scroll, you could find details at [BS Document](https://ustbhuangyi.github.io/better-scroll/doc/en/options.html) | Object | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} |
+| options<sup>1.9.8+</sup> | the options of better-scroll, you could find details at [BS Document](https://ustbhuangyi.github.io/better-scroll/doc/en/options.html) | Object | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>}<br>`Notice`: After `1.12.38`, as [BS](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) `iOS13.4` issue [#978](https://github.com/ustbhuangyi/better-scroll/issues/978), we set `useTransition` to `fasle` by default |
 | pullUpLoad<sup>1.8.0+</sup> | pull-up-load, the detail config is same as the `options.pullUpLoad` of Scroll. `Deprecated`, please use the property `options` instead. | Boolean/Object | false |
 | pullDownRefresh<sup>1.8.0+</sup> | pull-down-refresh, the detail config is same as the `options.pullDownRefresh` of Scroll. `Deprecated`, please use the property `options` instead. | Boolean/Object | false |
 
@@ -250,6 +250,7 @@ Each item of `items` array must be an object that must contains the `name` attri
 
 | Name | Description | Scope Parameters |
 | - | - | - |
+| title<sup>1.12.25+</sup> | title slot | - |
 | pulldown<sup>1.9.4+</sup> | located above the list and shown when pulling down refreshing | the detail is the same as Scroll component's pulldown slot scope parameters |
 | pullup<sup>1.9.4+</sup> | located below the list and shown when pulling up loading | the detail is the same as Scroll component's pullup slot scope parameters |
 

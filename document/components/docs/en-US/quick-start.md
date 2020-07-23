@@ -2,6 +2,7 @@
 
 - [Application Guide](https://github.com/cube-ui/cube-application-guide)
 - Have problems? See [QA](https://github.com/cube-ui/question-answer/issues)
+- In nuxt application, see [demo repo](https://github.com/cube-ui/cube-nuxt-demo)
 
 ### CLI
 
@@ -53,8 +54,8 @@ Since cube-ui support two compile ways such as [post-compile] (#/en-US/docs/post
         // add stylus dependencies
         "stylus": "^0.54.5",
         "stylus-loader": "^2.1.1",
-        "webpack-post-compile-plugin": "^0.4.1",
-        "webpack-transform-modules-plugin": "^0.3.5"
+        "webpack-post-compile-plugin": "^1.0.0",
+        "webpack-transform-modules-plugin": "^0.4.3"
       }
     }
     ```
@@ -127,7 +128,7 @@ Since cube-ui support two compile ways such as [post-compile] (#/en-US/docs/post
         }
       },
       "devDependencies": {
-        "webpack-transform-modules-plugin": "^0.3.5"
+        "webpack-transform-modules-plugin": "^0.4.3"
       }
     }
     ```

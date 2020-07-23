@@ -19,7 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { parallel, cb2PromiseWithResolve, isUndef, isFunc, isString, isArray, isObject } from '../../common/helpers/util'
+  import { parallel, cb2PromiseWithResolve, isUndef, isFunc, isString, isArray } from '../../common/helpers/util'
   import { rules } from '../../common/helpers/validator'
   import localeMixin from '../../common/mixins/locale'
   import template from '../../common/helpers/string-template'
@@ -183,7 +183,7 @@
                   ret: err
                 })
               }
-              if (isObject(ret) && isFunc(ret.then)) {
+              if (typeof ret === 'object' && isFunc(ret.then)) {
                 ret.then(resolve).catch(reject)
               } else if (isFunc(ret)) {
                 ret(resolve, reject)
@@ -214,10 +214,10 @@
           this.validating = false
           results.forEach(({ key, valid, ret }) => {
             const msg = this.messages[key]
-                      ? isFunc(this.messages[key])
-                        ? this.messages[key](ret, valid)
-                        : this.messages[key]
-                      : this.findMessage(key, configRules[key], configRules.type, model)
+              ? isFunc(this.messages[key])
+                ? this.messages[key](ret, valid)
+                : this.messages[key]
+              : this.findMessage(key, configRules[key], configRules.type, model)
             if (isValid && !valid) {
               isValid = false
               this.msg = msg

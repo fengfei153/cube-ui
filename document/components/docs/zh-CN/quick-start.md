@@ -2,6 +2,7 @@
 
 - 新手教程项目：[cube-application-guide](https://github.com/cube-ui/cube-application-guide)
 - 遇到问题，先移步 [QA](https://github.com/cube-ui/question-answer/issues)
+- 使用 nuxt，请参考[示例仓库](https://github.com/cube-ui/cube-nuxt-demo)
 
 ### 脚手架
 
@@ -54,8 +55,8 @@ cube-ui 搭配 webpack 2+ 支持[后编译](#/zh-CN/docs/post-compile)和普通�
         // 新增 stylus 相关依赖
         "stylus": "^0.54.5",
         "stylus-loader": "^2.1.1",
-        "webpack-post-compile-plugin": "^0.4.1",
-        "webpack-transform-modules-plugin": "^0.3.5"
+        "webpack-post-compile-plugin": "^1.0.0",
+        "webpack-transform-modules-plugin": "^0.4.3"
       }
     }
     ```
@@ -127,7 +128,7 @@ cube-ui 搭配 webpack 2+ 支持[后编译](#/zh-CN/docs/post-compile)和普通�
         }
       },
       "devDependencies": {
-        "webpack-transform-modules-plugin": "^0.3.5"
+        "webpack-transform-modules-plugin": "^0.4.3"
       }
     }
     ```

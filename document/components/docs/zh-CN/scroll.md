@@ -412,7 +412,7 @@
 | - | - | - | - | - |
 | data | 用于列表渲染的数据 | Array | - | [] |
 | direction | 滚动方向 | String | 'vertical', 'horizontal' | 'vertical' |
-| options | better-scroll 配置项，具体请参考[BS 官方文档](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) | Object | - | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} |
+| options | better-scroll 配置项，具体请参考[BS 官方文档](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) | Object | - | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} <br>`注意`：从`1.12.38`版本开始，因修复[BS](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html)在`iOS13.4`版本的滚动问题，`useTransition`在iOS版本>=13.4时默认为`fasle`<br>具体请参考[#978](https://github.com/ustbhuangyi/better-scroll/issues/978)|
 | scrollEvents<sup>1.9.0</sup> | 配置需要派发的 scroll 事件 | Array | 可包含子项：'scroll', 'before-scroll-start', 'scroll-end' | [] |
 | listenScroll | 是否派发 scroll 事件。`即将废弃`，推荐使用 `scroll-events` 属性 | Boolean | true/false | false |
 | listenBeforeScroll | 是否派发 before-scroll-start 事件。`即将废弃`，推荐使用 `scroll-events` 属性 | Boolean | true/false | false |
@@ -442,6 +442,9 @@
 | - | - | - | - | - |
 | threshold | 上拉刷新动作的上拉距离阈值 | Number | - | 0 |
 | txt | 上拉加载的相关文案 | Object | - | { more: '', noMore: '' } |
+| visible<sup>1.12.21</sup> | 内容不满一屏时，txt 文案是否可见 | Boolean | true/false | false |
+
+> 当开启 pullUpLoad，且内容较少，内容高度小于容器时，默认情况下，`pullUpLoad.txt` 配置的文案如“上滑加载更多”，需要上拉后才能看到。如果希望无需上拉即可看到提示文案，可以设置 `pullUpLoad.visible` 为 `true`。
 
 ### 插槽
 
@@ -466,12 +469,13 @@
 
 | 方法名 | 说明 | 参数 |
 | - | - | - |
-| scrollTo | 滚动到指定位置 | x: 横向位置<br> y: 纵向位置<br> time: 过渡动画时间<br> ease: 动画曲线 |
-| forceUpdate | 标记上拉下拉结束，强制重新计算可滚动距离 | dirty: 是否有数据更新，默认为 false。true 表示有数据更新重新计算可滚动距离，上拉文案显示`pullUpLoad.text.more`值，false 表示没有数据更新，无需重新计算, 上拉文案显示`pullUpLoad.text.nomore`值 |
-| disable | 禁用滚动 | - |
-| enable | 启用滚动，默认是开启滚动的。 | - |
-| resetPullUpTxt | 当从无更多切换到有更多时，重置上拉文本内容 | - |
-| refresh | 刷新，重新计算高度且刷新 BetterScroll 实例 | - |
+| scrollTo(x, y, time, ease) | 滚动到指定位置 | x: number, 横向位置<br> y: number, 纵向位置<br> time: number, 过渡动画时间 (ms)<br> ease: EasingFn, 缓动曲线 |
+| forceUpdate(dirty, nomore<sup>1.12.21</sup>) | 标记上拉下拉结束，强制重新计算可滚动距离 | dirty: boolean, 标识有数据更新，默认为 false。<br>nomore: boolean, pullUpLoad 中标识没有更多数据，默认为 false。1.12.21版本后支持 nomore 参数，当 nomore 为 true 时，上拉加载展示 `pullUpLoad.txt.nomore` 值，但当 dirty 为 false 时，nomore 无效。|
+| disable() | 禁用滚动 | - |
+| enable() | 启用滚动，默认是开启滚动的。 | - |
+| resetPullUpTxt() | 当从无更多切换到有更多时，重置上拉文本内容 | - |
+| refresh() | 刷新，重新计算高度且刷新 BetterScroll 实例 | - |
+
 
 ### 内部属性
 

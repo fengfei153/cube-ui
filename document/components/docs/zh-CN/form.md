@@ -345,6 +345,183 @@
 
   可以通过 `component` 指定实现了 `v-model` 的自定义组件，例如示例中的 `PCA` 组件；也可以通过使用插槽自定义结构行为，比如示例中的日期选择。
 
+  - 自定义问卷场景
+
+  你可以利用 Form 组件的特性轻松实现类似问卷这种场景表单，组件示例源代码：https://github.com/didi/cube-ui/tree/dev/example/components/questionnaire
+
+  ```html
+  <demo-questionnaire
+    :tip="tip"
+    :questions="questions"
+    :submit="submit"
+    @submit="submitHandler"
+  />
+  ```
+  ```js
+  // source
+  // https://github.com/didi/cube-ui/tree/dev/example/components/questionnaire/questionnaire.vue
+  import DemoQuestionnaire from 'example/components/questionnaire/questionnaire.vue'
+  export default {
+    data() {
+      return {
+        tip: '请配合如实填写问卷，确保xxxx相关文案',
+        questions: [
+          {
+            type: 'switch',
+            model: 'switch',
+            title: '询问是否？'
+            // required: true
+          },
+          {
+            type: 'input',
+            model: 'input',
+            title: '输入',
+            options: {
+              placeholder: '请输入'
+            },
+            on: 'switch',
+            required: true
+          },
+          {
+            type: 'date',
+            model: 'date',
+            title: '日期',
+            options: {
+              // min: '2020-01-01',
+              // max: '2020-02-18'
+            },
+            required: true
+          },
+          {
+            type: 'time',
+            model: 'time',
+            title: '时间',
+            options: {
+              min: '01:00',
+              max: '23:59'
+            },
+            required: true
+          },
+          {
+            type: 'select',
+            model: 'select',
+            title: '选择',
+            options: [
+              'option1',
+              'option2',
+              'option3'
+            ],
+            required: true
+          },
+          {
+            type: 'radio',
+            model: 'radio',
+            title: '单选',
+            options: [
+              '单选1',
+              '单选2',
+              '单选3'
+            ],
+            required: true
+          },
+          {
+            type: 'checkbox',
+            model: 'checkbox',
+            title: '多选',
+            options: [
+              '多选1',
+              '多选2',
+              '多选3'
+            ],
+            required: true
+          },
+          {
+            type: 'textarea',
+            model: 'textarea',
+            title: '多行文本',
+            on: {
+              model: 'checkbox',
+              options: ['多选1', '多选3']
+            },
+            required: true
+          },
+          {
+            type: 'checkbox',
+            row: true,
+            model: 'checkbox2',
+            title: '多选-横',
+            options: [
+              '多选-横1',
+              '多选-横2',
+              '多选-横3'
+            ],
+            required: true
+          },
+          {
+            type: 'tel',
+            model: 'tel',
+            title: '手机号',
+            options: {
+              placeholder: '请输入手机号'
+            },
+            required: true
+          },
+          {
+            type: 'rate',
+            model: 'rate',
+            title: '级别',
+            options: {
+              max: 10
+            },
+            required: true
+          },
+          {
+            type: 'city',
+            model: 'city',
+            title: '城市',
+            required: true
+          },
+          {
+            type: 'upload',
+            model: 'upload',
+            title: '上传',
+            options: {
+              action: '//jsonplaceholder.typicode.com/photos/',
+              max: 2
+            },
+            required: true
+          },
+          {
+            type: 'agreement',
+            model: 'agreement',
+            options: {
+              text: '请同意',
+              link: {
+                text: '《xx协议》',
+                href: 'https://github.com/didi/cube-ui'
+              },
+              desc: '说明：本人承诺xx xxxxx xxx xx。'
+            },
+            required: true,
+            errMsg: '请同意协议'
+          }
+        ],
+        submit: {
+          text: 'Submit'
+        }
+      }
+    },
+    components: {
+      DemoQuestionnaire
+    },
+    methods: {
+      submitHandler(model) {
+        console.log('submit', model)
+      }
+    }
+  }
+  ```
+
 ### Props 配置
 
 #### CubeForm
@@ -356,6 +533,7 @@
 | immediateValidate | 初始化时是否立即校验 | Boolean | true/false | false |
 | action | 表单 Form action 的值 | String | - | undefined |
 | options | 配置项 | Object | - | {<br>scrollToInvalidField: false,<br> layout: 'standard' // or: classic|fresh <br>} |
+| submitAlwaysValidate<sup>1.12.36+</sup> | 提交表单时是否总校验所有字段 | Boolean | true/false | false |
 
 - `schema` 子配置项
 
@@ -425,6 +603,14 @@
   | trigger<sup>1.8.0+</sup> | 如果设置为 'blur' 那么则会在离焦后校验 | String | blur/change | - |
   | debounce<sup>1.8.0+</sup> | 控制校验节奏，值为时间，单位 ms。如果 trigger 设置为 blur 则此项配置不生效 | Number/Boolean | >= 0，如果设置为 true，那么时间就是 200(ms) | - |
   | messages | 字段的校验消息，参见 <a href="#/zh-CN/docs/validator#cube-Props-anchor">Validator</a> | String | - | - |
+  | key<sup>1.12.36+</sup> | 字段的唯一key，尤其适用在 schema 更新的场景中 | String | - | - |
+
+- `options` 子配置项
+
+  | 参数 | 说明 | 类型 | 可选值 | 默认值 |
+  | - | - | - | - | - |
+  | scrollToInvalidField | 是否默认滚动到第一个无效字段位置 | Boolean | true/false | false |
+  | layout | 表单何种布局方式 | String | standard/classic/fresh | standard |
 
 #### CubeFormGroup
 
@@ -441,13 +627,13 @@
 
 ### 事件
 
-| 事件名 | 说明 | 参数1 | 参数2 |
-| - | - | - | - |
-| submit | 表单校验通过后触发此事件，如果只有同步校验，则不会阻止默认行为，而如果包含了异步校验，则默认就会阻止默认行为 | e - 事件对象 | model 值 |
-| reset | 表单重置事件 | e - 事件对象 | - |
-| validate | 表单校验事件 | 参数结构如下：<br>{<br>validity,<br> valid,<br> invalid,<br> dirty,<br> firstInvalidFieldIndex<br>} | - |
-| valid | 表单校验成功触发 | validity 校验结果 | - |
-| invalid | 表单校验失败触发 | validity 校验结果 | - |
+| 事件名 | 说明 | 参数1 | 参数2 | 参数3 |
+| - | - | - | - | - |
+| submit | 表单校验通过后触发此事件，如果只有同步校验，则不会阻止默认行为，而如果包含了异步校验，则默认就会阻止默认行为 | e - 事件对象 | model 值 | 只包含存在的字段的 model 值<sup>1.12.30+</sup> |
+| reset | 表单重置事件 | e - 事件对象 | - | - |
+| validate | 表单校验事件 | 参数结构如下：<br>{<br>validity,<br> valid,<br> invalid,<br> dirty,<br> firstInvalidFieldIndex<br>} | - | - |
+| valid | 表单校验成功触发 | validity 校验结果 | - | - |
+| invalid | 表单校验失败触发 | validity 校验结果 | - | - |
 
 - `validate` 事件的参数
 

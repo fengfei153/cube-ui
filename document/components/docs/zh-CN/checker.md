@@ -129,7 +129,7 @@ Checker 是更加灵活的选择组件，可以自定义需要的布局样式。
     data() {
       return {
         checkerList: [3],
-        option: [
+        options: [
           {
             value: 1,
             text: 'red'
@@ -152,7 +152,41 @@ Checker 是更加灵活的选择组件，可以自定义需要的布局样式。
   }
   ```
 
+- 不可点击状态<sup>1.12.19</sup>
 
+  `disabled` 设置禁用状态。
+
+
+  ```html
+  <cube-checker
+    v-model="checkerList"
+    :options="options"/>
+  ```
+  ```js
+  export default {
+    data() {
+      return {
+        checkerList: [2],
+        options: [
+          {
+            value: 1,
+            text: 'first',
+            disabled: true
+          },
+          {
+            value: 2,
+            text: 'second',
+            disabled: true
+          },
+          {
+            value: 3,
+            text: 'third'
+          }
+        ]
+      }
+    }
+  }
+  ```
 
 ### Props 配置
 
@@ -169,6 +203,7 @@ Checker 是更加灵活的选择组件，可以自定义需要的布局样式。
 | - | - | - |
 | value | 选项的值 | String/Number |
 | text | 选项的文本 | String |
+| disabled<sup>1.12.19</sup> | 选项是否被禁用 | Boolean |
 
 ### CubeCheckerItem Props 配置
 
@@ -182,3 +217,4 @@ Checker 是更加灵活的选择组件，可以自定义需要的布局样式。
 | - | - | - |
 | value | 选项的值 | String/Number |
 | text | 选项的文本 | String |
+| disabled<sup>1.12.19</sup> | 选项是否被禁用 | Boolean |

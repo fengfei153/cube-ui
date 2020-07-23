@@ -345,6 +345,183 @@ CubeForm is a schema-based form generator component.
 
   Like the `PCA` component, you can use `component` to define your custom component. Or use slots, like use DatePicker component.
 
+- Questionnaire
+
+  You can use form features to build your own app, like questionnaire. Code source: https://github.com/didi/cube-ui/tree/dev/example/components/questionnaire
+
+  ```html
+  <demo-questionnaire
+    :tip="tip"
+    :questions="questions"
+    :submit="submit"
+    @submit="submitHandler"
+  />
+  ```
+  ```js
+  // source
+  // https://github.com/didi/cube-ui/tree/dev/example/components/questionnaire/questionnaire.vue
+  import DemoQuestionnaire from 'example/components/questionnaire/questionnaire.vue'
+  export default {
+    data() {
+      return {
+        tip: '请配合如实填写问卷，确保xxxx相关文案',
+        questions: [
+          {
+            type: 'switch',
+            model: 'switch',
+            title: '询问是否？'
+            // required: true
+          },
+          {
+            type: 'input',
+            model: 'input',
+            title: '输入',
+            options: {
+              placeholder: '请输入'
+            },
+            on: 'switch',
+            required: true
+          },
+          {
+            type: 'date',
+            model: 'date',
+            title: '日期',
+            options: {
+              // min: '2020-01-01',
+              // max: '2020-02-18'
+            },
+            required: true
+          },
+          {
+            type: 'time',
+            model: 'time',
+            title: '时间',
+            options: {
+              min: '01:00',
+              max: '23:59'
+            },
+            required: true
+          },
+          {
+            type: 'select',
+            model: 'select',
+            title: '选择',
+            options: [
+              'option1',
+              'option2',
+              'option3'
+            ],
+            required: true
+          },
+          {
+            type: 'radio',
+            model: 'radio',
+            title: '单选',
+            options: [
+              '单选1',
+              '单选2',
+              '单选3'
+            ],
+            required: true
+          },
+          {
+            type: 'checkbox',
+            model: 'checkbox',
+            title: '多选',
+            options: [
+              '多选1',
+              '多选2',
+              '多选3'
+            ],
+            required: true
+          },
+          {
+            type: 'textarea',
+            model: 'textarea',
+            title: '多行文本',
+            on: {
+              model: 'checkbox',
+              options: ['多选1', '多选3']
+            },
+            required: true
+          },
+          {
+            type: 'checkbox',
+            row: true,
+            model: 'checkbox2',
+            title: '多选-横',
+            options: [
+              '多选-横1',
+              '多选-横2',
+              '多选-横3'
+            ],
+            required: true
+          },
+          {
+            type: 'tel',
+            model: 'tel',
+            title: '手机号',
+            options: {
+              placeholder: '请输入手机号'
+            },
+            required: true
+          },
+          {
+            type: 'rate',
+            model: 'rate',
+            title: '级别',
+            options: {
+              max: 10
+            },
+            required: true
+          },
+          {
+            type: 'city',
+            model: 'city',
+            title: '城市',
+            required: true
+          },
+          {
+            type: 'upload',
+            model: 'upload',
+            title: '上传',
+            options: {
+              action: '//jsonplaceholder.typicode.com/photos/',
+              max: 2
+            },
+            required: true
+          },
+          {
+            type: 'agreement',
+            model: 'agreement',
+            options: {
+              text: '请同意',
+              link: {
+                text: '《xx协议》',
+                href: 'https://github.com/didi/cube-ui'
+              },
+              desc: '说明：本人承诺xx xxxxx xxx xx。'
+            },
+            required: true,
+            errMsg: '请同意协议'
+          }
+        ],
+        submit: {
+          text: 'Submit'
+        }
+      }
+    },
+    components: {
+      DemoQuestionnaire
+    },
+    methods: {
+      submitHandler(model) {
+        console.log('submit', model)
+      }
+    }
+  }
+  ```
+
 ### Props
 
 #### Form
@@ -356,6 +533,7 @@ CubeForm is a schema-based form generator component.
 | immediateValidate | If true, we will run validation after load | Boolean | true/false | false |
 | action | Form action value | String | - | undefined |
 | options | Options for CubeForm | Object | - | {<br>scrollToInvalidField: false,<br> layout: 'standard' // or: classic|fresh <br>} |
+| submitAlwaysValidate<sup>1.12.36+</sup> | If true, we will always validate all fields when submit | Boolean | true/false | false |
 
 - `schema` sub configuration
 
@@ -425,6 +603,14 @@ CubeForm is a schema-based form generator component.
   | trigger<sup>1.8.0+</sup> | If set to 'blur' then will be validate this filed when blur | String | blur/change | - |
   | debounce<sup>1.8.0+</sup> | Debounce validating time(ms). If `trigger` is 'blur' then the debounce will be ignored | Number/Boolean | >= 0, if set to true the time will be 200(ms) | - |
   | messages | Validator messages, see <a href="#/en-US/docs/validator#cube-Props-anchor">Validator</a> | String | - | - |
+  | key<sup>1.12.36+</sup> | field union key | String | - | - |
+
+- `options` sub configuration
+
+  | Attribute | Description | Type | Accepted Values | Default |
+  | - | - | - | - | - |
+  | scrollToInvalidField | Whether to scroll to the first invalid fileld by default | Boolean | true/false | false |
+  | layout | Form layout style | String | standard/classic/fresh | standard |
 
 #### FormGroup
 
@@ -441,13 +627,13 @@ CubeForm is a schema-based form generator component.
 
 ### Events
 
-| Event Name | Description | Parameters 1 | Parameters 2 |
-| - | - | - | - |
-| submit | Form submit, only trigged when the form's validation is ok. If only have sync validators, this event will not be prevented by default. If have async validators, this event will be prevented by default. | e - event | form model value |
-| reset | Form reset | e - event | - |
-| validate | Form validated | Properties: <br>{<br>validity,<br> valid,<br> invalid,<br> dirty,<br> firstInvalidFieldIndex<br>} | - |
-| valid | Form valid | Validity result | - |
-| invalid | Form invalid | Validity result | - |
+| Event Name | Description | Parameters 1 | Parameters 2 | Parameters 3 |
+| - | - | - | - | - |
+| submit | Form submit, only trigged when the form's validation is ok. If only have sync validators, this event will not be prevented by default. If have async validators, this event will be prevented by default. | e - event | form model value | form model value with only fields `modelKey`<sup>1.12.30+</sup> |
+| reset | Form reset | e - event | - | - |
+| validate | Form validated | Properties: <br>{<br>validity,<br> valid,<br> invalid,<br> dirty,<br> firstInvalidFieldIndex<br>} | - | - |
+| valid | Form valid | Validity result | - | - |
+| invalid | Form invalid | Validity result | - | - |
 
 - `validate` event parameters
 

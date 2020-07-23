@@ -24,7 +24,7 @@
             <i class="border-bottom-1px"></i>
             <i class="border-top-1px"></i>
             <div class="cube-picker-wheel-wrapper" ref="wheelWrapper">
-              <div v-for="(data,index) in finalData" :key="index">
+              <div v-for="(data,index) in finalData" :key="index" :style="{ order: _getFlexOrder(data)}">
                 <!-- The class name of the ul and li need be configured to BetterScroll. -->
                 <ul class="cube-picker-wheel-scroll">
                   <li v-for="(item,index) in data" class="cube-picker-wheel-item" :key="index" v-html="item[textKey]">
@@ -49,7 +49,7 @@
   import basicPickerMixin from '../../common/mixins/basic-picker'
   import pickerMixin from '../../common/mixins/picker'
   import localeMixin from '../../common/mixins/locale'
-
+  import { USE_TRANSITION } from '../../common/bscroll/constants'
   const COMPONENT_NAME = 'cube-picker'
 
   const EVENT_SELECT = 'select'
@@ -95,7 +95,7 @@
         }
 
         for (let i = 0; i < length; i++) {
-          let index = this.wheels[i].getSelectedIndex()
+          let index = this._getSelectIndex(this.wheels[i])
           this._indexes[i] = index
 
           let value = null
@@ -232,10 +232,11 @@
               wheelItemClass: 'cube-picker-wheel-item'
             },
             swipeTime: this.swipeTime,
-            observeDOM: false
+            observeDOM: false,
+            useTransition: USE_TRANSITION
           })
           wheel.on('scrollEnd', () => {
-            this.$emit(EVENT_CHANGE, i, wheel.getSelectedIndex())
+            this.$emit(EVENT_CHANGE, i, this._getSelectIndex(wheel))
           })
         } else {
           this.wheels[i].refresh()
@@ -255,6 +256,29 @@
         return !this.pending && this.wheels.every((wheel) => {
           return !wheel.isInTransition
         })
+      },
+      _getFlexOrder(data) {
+        if (data[0]) {
+          return data[0][this.orderKey]
+        }
+        return 0
+      },
+      // fixed BScroll not calculating selectedIndex when setting useTransition to false
+      _getSelectIndex(wheel) {
+        const y = wheel.y
+        let selectedIndex
+        if (USE_TRANSITION) {
+          selectedIndex = wheel.getSelectedIndex()
+        } else {
+          if (y > wheel.minScrollY) {
+            selectedIndex = 0
+          } else if (y < wheel.maxScrollY) {
+            selectedIndex = wheel.items.length - 1
+          } else {
+            selectedIndex = Math.round(Math.abs(y / wheel.itemHeight))
+          }
+        }
+        return selectedIndex
       }
     },
     beforeDestroy() {

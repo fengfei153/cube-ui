@@ -179,7 +179,7 @@
 
   - 下拉刷新
 
-  可以通过 `pullDownRefresh` 属性开启下拉刷新功能，具体配置同 Scroll 组件的 `options.pullDownRefresh`。
+  可以通过 `pullDownRefresh` 属性开启下拉刷新功能，具体配置同 Scroll 组件的 `options.pullDownRefresh`
 
   ```html
   <cube-index-list
@@ -216,7 +216,7 @@
           // Update data.
           this.data[1].items.push(...cityData[1].items)
           // Call forceUpdate after finishing data load.
-          this.$refs.indexList.forceUpdate()
+          this.$refs.indexList.forceUpdate(true)
         }, 1000)
       }
     }
@@ -231,7 +231,7 @@
 | data | 需要展示的数据 | Array | [] |
 | navbar | 是否需要导航栏 | Boolean | true |
 | speed | 点击导航栏索引时，滚动到相应位置的动画时间（单位：ms） | number | 0 |
-| options<sup>1.9.8+</sup> | better-scroll 配置项，具体请参考[BS 官方文档](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) | Object | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} |
+| options<sup>1.9.8+</sup> | better-scroll 配置项，具体请参考[BS 官方文档](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html) | Object | {<br>  observeDOM: true,<br>  click: true,<br>  probeType: 1,<br>  scrollbar: false,<br>  pullDownRefresh: false,<br>  pullUpLoad: false<br>} <br>`注意`：从`1.12.38`版本开始，因修复[BS](https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/options.html)在`iOS13.4`版本的滚动问题，`useTransition`在iOS版本>=13.4时默认为`fasle`<br>具体请参考[#978](https://github.com/ustbhuangyi/better-scroll/issues/978)|
 | pullUpLoad<sup>1.8.0+</sup> | 上拉加载，具体配置参考 scroll 组件的 `options.pullUpLoad`。`即将废弃`，推荐使用 `options` 属性 | Boolean/Object | false |
 | pullDownRefresh<sup>1.8.0+</sup> | 下拉刷新，具体配置参考 scroll 组件的 `options.pullDownRefresh`。`即将废弃`，推荐使用 `options` 属性 | Boolean/Object | false |
 
@@ -250,6 +250,7 @@
 
 | 名字 | 说明 | 作用域参数 |
 | - | - | - |
+| title<sup>1.12.25+</sup> | 标题插槽 | - |
 | pulldown<sup>1.9.4+</sup> | 位于列表上方，会在下拉刷新时显示，与 scroll 组件相同 | 具体参考 scroll 组件的 pulldown 插槽作用域参数介绍 |
 | pullup<sup>1.9.4+</sup> | 位于列表下方，会在上拉加载时显示，与 scroll 组件相同  | 具体参考 scroll 组件的 pullup 插槽作用域参数介绍 |
 

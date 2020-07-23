@@ -1,12 +1,18 @@
 <template>
   <div class="cube-radio" :class="_containerClass" :data-pos="position">
     <label class="cube-radio-wrap" :class="_wrapClass">
-      <input class="cube-radio-input" type="radio" :disabled="option.disabled" v-model="radioValue" :value="computedOption.value">
+      <input
+        class="cube-radio-input"
+        type="radio"
+        :disabled="option.disabled"
+        v-model="radioValue"
+        :value="computedOption.value"
+      />
       <span class="cube-radio-ui cubeic-round-border">
         <i></i>
       </span>
       <slot>
-        <span class="cube-radio-label">{{computedOption.label}}</span>
+        <span class="cube-radio-label">{{ computedOption.label }}</span>
       </slot>
     </label>
   </div>
@@ -45,13 +51,16 @@ export default {
   },
   created() {
     const radioGroup = this.radioGroup
-    if (radioGroup) {
+    if (radioGroup && radioGroup.radioValue !== void 0) {
       this.radioValue = radioGroup.radioValue
-      this._cancelWatchGroup = this.$watch(() => {
-        return radioGroup.radioValue
-      }, (newValue) => {
-        this.radioValue = newValue
-      })
+      this._cancelWatchGroup = this.$watch(
+        () => {
+          return radioGroup.radioValue
+        },
+        newValue => {
+          this.radioValue = newValue
+        }
+      )
     }
   },
   beforeDestroy() {
@@ -93,7 +102,8 @@ export default {
       }
     },
     _wrapClass() {
-      if (!this.$parent.horizontal) {
+      let parent = this.$parent
+      if (!(parent.horizontal || parent.$props.colNum > 1)) {
         return 'border-bottom-1px'
       }
     }

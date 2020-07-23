@@ -29,7 +29,7 @@
         </slot>
       </div>
     </template>
-    <cube-button v-bind="fieldValue.props" v-else>{{fieldValue.label}}</cube-button>
+    <cube-button v-bind="fieldValue.props" v-on="fieldValue.events" v-else>{{fieldValue.label}}</cube-button>
   </div>
 </template>
 
@@ -246,6 +246,8 @@
           const defValue = getResetValueByType(fieldValue.type)
           this.validatorDisabled = true
           resetTypeValue(this, 'modelValue', defValue)
+          // need to sync validator value too, because of trigger blur or debounce
+          this.syncValidatorValue()
           this.$refs.validator && this.$refs.validator.reset()
           this.$nextTick(() => {
             this.validatorDisabled = false

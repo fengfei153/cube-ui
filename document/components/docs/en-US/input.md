@@ -24,6 +24,33 @@ Input component. You can use the `v-model` directive to create two-way data bind
   }
   ```
 
+- Control max length
+
+  You can control the value's max length like this:
+
+  ```html
+  <cube-input v-model="value"></cube-input>
+  ```
+
+  ```javascript
+  export default {
+    data() {
+      return {
+        value: ''
+      }
+    },
+    watch: {
+      value(newV) {
+        if (newV.length > 10) {
+          newV = newV.slice(0, 10)
+          this.$nextTick(() => {
+            this.value = newV
+          })
+        }
+      }
+    }
+  }
+  ```
 
 - Clearable config
 
@@ -115,12 +142,14 @@ Input component. You can use the `v-model` directive to create two-way data bind
 | prepend | prepend content |
 | append | append content |
 
-### Event
+### Events
 
 | Event Name | Description | Parameters |
 | - | - | - |
 | focus | This event is triggered after the input box is focused. If input is disabled, it will not be triggered | e - event |
 | blur | This event is triggered after the input box blur | e - event |
+| change | The event is triggered after the binding value is changed and the input box is blur | e - event |
+| input | The event is triggered when the binding value is changed | The updated value |
 
 ### Instance methods
 
