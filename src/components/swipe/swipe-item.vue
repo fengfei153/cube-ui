@@ -275,7 +275,7 @@
         if (this.isInTransition) {
           return
         }
-        e.preventDefault()
+        // e.preventDefault()
         const point = e.touches[0]
         let deltaX = point.pageX - this.pointX
         let deltaY = point.pageY - this.pointY
